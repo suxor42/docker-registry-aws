@@ -21,8 +21,10 @@ case "$1" in
     fail_unless_root
     docker run -p 80:5000 -v /etc/docker:/registry-conf \
     -e DOCKER_REGISTRY_CONFIG=/registry-conf/config.yml \
-    -e SETTINGS_FLAVOR=$SETTINGS_FLAVOR registry \
+    -e SETTINGS_FLAVOR=$SETTINGS_FLAVOR \
     -e AWS_BUCKET=$AWS_BUCKET \
+    -e AWS_REGION=$AWS_REGION \
+    registry \
     &
     echo $! > $DOCKER_REGISTRY_PIDFILE
     ;;
