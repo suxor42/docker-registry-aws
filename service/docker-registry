@@ -4,7 +4,7 @@
 # chkconfig: 2345 95 05
 # description: docker-registry
 #
-
+. /etc/environment
 export SETTINGS_FLAVOR=prod
 BASE=$(basename $0)
 DOCKER_REGISTRY_PIDFILE=/var/run/$BASE.pid
@@ -19,7 +19,11 @@ fail_unless_root() {
 case "$1" in
   start)
     fail_unless_root
-    docker run -p 80:5000 -v /etc/docker:/registry-conf -e DOCKER_REGISTRY_CONFIG=/registry-conf/config.yml -e SETTINGS_FLAVOR=$SETTINGS_FLAVOR registry &
+    docker run -p 80:5000 -v /etc/docker:/registry-conf \
+    -e DOCKER_REGISTRY_CONFIG=/registry-conf/config.yml \
+    -e SETTINGS_FLAVOR=$SETTINGS_FLAVOR registry \
+    -e AWS_BUCKET=$AWS_BUCKET \
+    &
     echo $! > $DOCKER_REGISTRY_PIDFILE
     ;;
 

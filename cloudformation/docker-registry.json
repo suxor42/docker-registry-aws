@@ -427,6 +427,8 @@
                         "export AWS_BUCKET=",
                         { "Ref" : "S3Bucket" },
                         "\n",
+                        "echo AWS_BUCKET=",{"Ref":"S3Bucket"}," >>/etc/environment\n",
+                        "echo AWS_REGION=",{"Ref":"AWS::Region"}," >>/etc/environment\n",
                         "cd /tmp && git clone https://github.com/suxor42/docker-registry-aws.git\n",
                         "mkdir -p /etc/docker/\n",
                         "cp docker-registry-aws/config/config.yml /etc/docker/\n",
